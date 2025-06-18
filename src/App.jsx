@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
 
+const debounce = (callback, delay) => {
+  let timeout;
+  return (value) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      callback(value);
+    }, delay);
+  };
+}
+
 function App() {
 
   const [query, setQuery] = useState("");
@@ -26,13 +36,13 @@ function App() {
         value={query}
         onChange={e => setQuery(e.target.value)}
       />
-      {/* {suggestions.length > 0 && (
+      {suggestions.length > 0 && (
         <div>
-          {suggestions.map((p, i) => (
-            <p key={i}>{p}</p>
+          {suggestions.map((p) => (
+            <p key={p.id}>{p.name}</p>
           ))}
         </div>
-      )} */}
+      )}
     </>
   )
 }
