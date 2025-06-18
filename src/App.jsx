@@ -31,13 +31,16 @@ function App() {
 
   return (
     <>
+
       <h1>Autocomplete</h1>
+
       <input
         type="text"
         placeholder="Cerca"
         value={query}
         onChange={e => setQuery(e.target.value)}
       />
+
       {suggestions.length > 0 && (
         <div>
           {suggestions.map((p) => (
@@ -45,6 +48,7 @@ function App() {
           ))}
         </div>
       )}
+
     </>
   )
 }
