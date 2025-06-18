@@ -1,21 +1,32 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { debounce } from "lodash";
 
 function App() {
 
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  console.log(suggestions)
 
-  useEffect(() => {
+  const fetchProducts = async (query) => {
     if (!query.trim()) {
       setSuggestions([]);
       return;
     }
-    fetch(`http://localhost:3333/products?search=${query}`)
-      .then(res => res.json())
-      .then(data => setSuggestions(data))
-      .catch(error => console.error(error));
+    try {
+      const res = await fetch(`http://localhost:3333/products?search=${query}`)
+      const data = await res.json();
+      setSuggestions(data);
+      console.log("API");
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const debouncedFetchProducts = useCallback(
+    debounce(fetchProducts, 500)
+    , []);
+
+  useEffect(() => {
+    debouncedFetchProducts(query);
   }, [query]);
 
   return (
